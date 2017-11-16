@@ -60,7 +60,7 @@ export default class Quarters {
   // user details
   fetchUser (accessToken) {
     return axios
-      .get('/me', {
+      .get(`${this.options.apiURL}me`, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -74,7 +74,7 @@ export default class Quarters {
       throw new Error('`amount` is required')
     }
 
-    if (!data.address && !data.address) {
+    if (!data.user && !data.address) {
       throw new Error('`user` or `address` is required')
     }
 
