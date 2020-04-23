@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export default class Quarters {
-  constructor (options = {}) {
+  constructor(options = {}) {
     const msgMapping = {
       key: 'App key',
       secret: 'App secret',
@@ -23,11 +23,11 @@ export default class Quarters {
       webSecret: options.webSecret,
       address: options.address,
       quartersURL: quartersURL,
-      apiURL: options.apiURL || 'https://api.pocketfulofquarters.com/'
+      apiURL: options.apiURL || 'https://api.pocketfulofquarters.com/v1/'
     }
   }
 
-  createRefreshToken (code) {
+  createRefreshToken(code) {
     const data = {
       client_id: this.options.key,
       client_secret: this.options.webSecret,
@@ -42,7 +42,7 @@ export default class Quarters {
       })
   }
 
-  createAccessToken (refreshToken) {
+  createAccessToken(refreshToken) {
     const data = {
       client_id: this.options.key,
       client_secret: this.options.webSecret,
@@ -58,7 +58,7 @@ export default class Quarters {
   }
 
   // user details
-  fetchUser (accessToken) {
+  fetchUser(accessToken) {
     return axios
       .get(`${this.options.apiURL}me`, {
         headers: {
@@ -69,7 +69,7 @@ export default class Quarters {
   }
 
   // request transfer from quarter server
-  transferQuarters (data) {
+  transferQuarters(data) {
     if (!data.amount) {
       throw new Error('`amount` is required')
     }
@@ -87,6 +87,47 @@ export default class Quarters {
     // transfer token to provided user/address
     const appAddress = this.options.address
     const url = `${this.options.apiURL}accounts/${appAddress}/transfer`
+    const opt = {
+      headers: {
+        Authorization: `Bearer ${this.options.secret}`
+      }
+    }
+    return axios.post(url, payload, opt).then(response => response.data)
+  }
+
+  // request transfer from user
+  requestTransfer(data) {
+    if (!data.tokens) {
+      throw new Error('`tokens` is required')
+    }
+
+    const payload = {
+      appId: this.options.key,
+      userId: data.userId,
+      tokens: parseInt(data.tokens),
+      description: data.description || ''
+    }
+
+    const url = `${this.options.apiURL}requests`
+    return axios.post(url, payload).then(response => response.data)
+  }
+
+  // approve transfer from user
+  approveTransfer(data) {
+    if (!data.requestId) {
+      throw new Error('`requestId` is required')
+    }
+
+    if (!data.userId) {
+      throw new Error('`userId` is required')
+    }
+
+    const payload = {
+      clientId: this.options.key,
+      userId: data.userId
+    }
+
+    const url = `${this.options.apiURL}requests/${data.requestId}/autoApprove`
     const opt = {
       headers: {
         Authorization: `Bearer ${this.options.secret}`
