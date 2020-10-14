@@ -1,6 +1,6 @@
 {
   "name": "node-quarters",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Quarters for server",
   "main": "lib/index.js",
   "files": [
