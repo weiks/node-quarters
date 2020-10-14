@@ -81,7 +81,8 @@ export default class Quarters {
     const payload = {
       address: data.address,
       user: data.user,
-      amount: parseInt(data.amount)
+      amount: parseInt(data.amount),
+      ...data
     }
 
     // transfer token to provided user/address
@@ -105,7 +106,7 @@ export default class Quarters {
       appId: this.options.key,
       userId: data.userId,
       tokens: parseInt(data.tokens),
-      description: data.description || ''
+      ...data
     }
 
     const url = `${this.options.apiURL}requests`
