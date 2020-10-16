@@ -125,7 +125,7 @@ export default class Quarters {
 
     const payload = {
       clientId: this.options.key,
-      userId: data.userId
+      ...data
     }
 
     const url = `${this.options.apiURL}requests/${data.requestId}/autoApprove`
