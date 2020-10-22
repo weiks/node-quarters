@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export default class Quarters {
+class Quarters {
   constructor(options = {}) {
     const msgMapping = {
       key: 'App key',
@@ -137,3 +137,16 @@ export default class Quarters {
     return axios.post(url, payload, opt).then(response => response.data)
   }
 }
+
+// For convention around apps.
+Quarters.txTypes = {
+  BUY: 'buy',         // Purchase Quarters with $$
+  WIN: 'win',         // Win Quarters in an app
+  SPEND: 'spend',     // Spend Quarters in an app
+  REFUND: 'refund',   // Refund Quarters to wallet
+  RETURN: 'return',   // Return Quarters for $$
+  BONUS: 'bonus',     // Earn Quarters as reward
+  COUPON: 'coupon'    // Get Quarters from redeeming a coupon
+}
+
+export default Quarters
