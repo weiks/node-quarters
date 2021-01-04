@@ -35,6 +35,6 @@
     "url": "https://github.com/weiks/node-quarters.git"
   },
   "dependencies": {
-    "axios": "^0.19"
+    "axios": "^0.21"
   }
 }
